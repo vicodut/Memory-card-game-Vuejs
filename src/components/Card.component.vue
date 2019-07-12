@@ -44,6 +44,7 @@ export default {
     rotate() {
       this.isRotate = !this.isRotate;
       this.increment();
+      this.$emit('flip', this.card)
     },
     increment() {
       this.$store.commit('increment');

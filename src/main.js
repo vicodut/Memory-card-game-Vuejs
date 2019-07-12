@@ -17,6 +17,7 @@ const store = new Vuex.Store({
   state: {
     count: 0,
     cards: [],
+    prevCard: {},
   },
   getters: {
     count(state) {
@@ -25,17 +26,41 @@ const store = new Vuex.Store({
     cards(state) {
       return state.cards;
     },
+    prevCard(state) {
+      return state.prevCard;
+    },
   },
   mutations: {
     START_GAME(state) {
-      state.cards = [...CARD_TYPES, ...CARD_TYPES].map(type => ({ flipped: false, type }));
+      const cardsArray = [...CARD_TYPES, ...CARD_TYPES].map(type => ({ flipped: false, type }));
+      let l = cardsArray.length;
+      while (l) {
+        const i = Math.floor(Math.random() * l--);
+        [cardsArray[l], cardsArray[i]] = [cardsArray[i], cardsArray[l]];
+      }
+
+      state.cards = cardsArray;
     },
     increment(state) {
       state.count += 1;
     },
+    flipCard(state, card) {
+      if (!state.prevCard.type) {
+        state.prevCard = card;
+      } else {
+        if (state.prevCard.type !== card.type) {
+          flipCards([state.prevCard, card]);
+        } else {
+          state.prevCard = {};
+        }
+      }
+    },
   },
   actions: {
     flipCard(card) {
+      console.log(card);
+    },
+    flipCards(card) {
       console.log(card);
     },
   },

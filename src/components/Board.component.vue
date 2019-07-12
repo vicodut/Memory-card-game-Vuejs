@@ -4,7 +4,8 @@
       v-for="(card, i) of cards"
       :key="i"
       :card="card"
-    />
+      @flip="flip"
+    ></Card>
   </div>
 </template>
 
@@ -19,6 +20,23 @@ export default {
   computed: {
     cards() {
       return this.$store.getters.cards;
+    },
+    prevCard() {
+      return this.$store.getters.prevCard;
+    },
+
+  },
+  methods: {
+    flip(card) {
+      if (!this.prevCard.type) {
+        this.prevCard = card;
+      } else {
+        if (this.prevCard.type !== card.type) {
+          this.$store.commit('flipCards', [this.prevCard, card]);
+        } else {
+          this.prevCard = {};
+        }
+      }
     },
   },
 };

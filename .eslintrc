@@ -11,7 +11,10 @@
     "airbnb-base",
     "plugin:vue/recommended"
   ],
-  "rules": {},
+  "rules": {
+    // windows linebreaks when not in production environment
+    "linebreak-style": ["error", "unix"]
+  },
   "settings": {
     "import/resolver": {
       "node": {

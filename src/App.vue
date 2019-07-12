@@ -12,6 +12,14 @@ export default {
   components: {
     Board,
   },
+  created() {
+    this.$store.commit('START_GAME');
+  },
+  methods: {
+    startGame() {
+      this.$store.commit('START_GAME');
+    },
+  },
 };
 </script>
 
