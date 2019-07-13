@@ -1,11 +1,16 @@
 <template>
-  <div class="board">
-    <Card
-      v-for="(card, i) of cards"
-      :key="i"
-      :card="card"
-      @flip="flip"
-    ></Card>
+  <div>
+    {{ count }}
+    {{ prevCard }}
+    {{ gameStatus }}
+    <div class="board">
+      <Card
+        v-for="(card, i) of cards"
+        :key="i"
+        :card="card"
+        @flip="flip"
+      />
+    </div>
   </div>
 </template>
 
@@ -24,18 +29,31 @@ export default {
     prevCard() {
       return this.$store.getters.prevCard;
     },
+    count() {
+      return this.$store.getters.count;
+    },
+    gameStatus() {
+      return this.$store.getters.status;
+    },
 
   },
   methods: {
     flip(card) {
+      if (this.cards.every(card => !card.flipped)) {
+        console.log(`WIN in ${this.count}!!!`);
+        this.$store.commit('SET_GAME_STATUS', 'PAUSE');
+      }
       if (!this.prevCard.type) {
-        this.prevCard = card;
+        this.$store.commit('SET_PREV_FLIPPED', card);
+      } else if (this.prevCard.type === card.type) {
+        this.$store.commit('SET_PREV_FLIPPED', {});
       } else {
-        if (this.prevCard.type !== card.type) {
-          this.$store.commit('flipCards', [this.prevCard, card]);
-        } else {
-          this.prevCard = {};
-        }
+        this.$store.commit('SET_GAME_STATUS', 'PAUSE');
+        setTimeout(() => {
+          this.$store.commit('SET_GAME_STATUS', 'PLAY');
+          this.$store.commit('FLIP_CARDS', [this.prevCard, card]);
+          this.$store.commit('SET_PREV_FLIPPED', {});
+        }, 1300);
       }
     },
   },

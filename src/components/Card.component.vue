@@ -5,10 +5,10 @@
   >
     <div
       class="card-inner"
-      :class="{rotate: isRotate}"
+      :class="{rotate: card.flipped}"
     >
       <div class="card-front">
-        card {{ card.type }}
+        {{ card.type }}
       </div>
       <div class="card-back">
         back
@@ -28,6 +28,7 @@ export default {
         return {
           type: '',
           flipped: false,
+          id: null,
         };
       },
     },
@@ -39,15 +40,18 @@ export default {
     score() {
       return this.$store.getters.count;
     },
+    gameStatus() {
+      return this.$store.getters.status;
+    },
   },
   methods: {
     rotate() {
-      this.isRotate = !this.isRotate;
-      this.increment();
-      this.$emit('flip', this.card)
-    },
-    increment() {
-      this.$store.commit('increment');
+      if (this.card.flipped && this.gameStatus === 'PLAY') {
+        // this.isRotate = !this.isRotate;
+        this.$store.commit('FLIP_CARDS', [this.card]);
+        this.$emit('flip', this.card);
+        this.$store.commit('increment');
+      }
     },
   },
 };
@@ -76,6 +80,7 @@ export default {
         position: absolute;
         width: 100%;
         height: 100%;
+        overflow: hidden;
         backface-visibility: hidden;
     }
 
@@ -83,6 +88,7 @@ export default {
         background-color: #9977aa;
         box-shadow: 0px 0px 5px #333;
         border-radius: 8px;
+        font-size: 16em;
     }
 
     .card-back {
