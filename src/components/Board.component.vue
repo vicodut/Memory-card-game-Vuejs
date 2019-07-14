@@ -13,6 +13,7 @@
 </template>
 
 <script>
+import { mapGetters } from 'vuex';
 import Card from './Card.component';
 import Header from './Header.component';
 
@@ -23,19 +24,7 @@ export default {
     Header,
   },
   computed: {
-    cards() {
-      return this.$store.getters.cards;
-    },
-    prevCard() {
-      return this.$store.getters.prevCard;
-    },
-    count() {
-      return this.$store.getters.count;
-    },
-    gameStatus() {
-      return this.$store.getters.status;
-    },
-
+    ...mapGetters(['score', 'status', 'count', 'prevCard', 'cards']),
   },
   methods: {
     flip(card) {

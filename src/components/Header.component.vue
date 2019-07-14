@@ -2,7 +2,7 @@
   <div class="header">
     {{ count }}
     {{ prevCard }}
-    {{ gameStatus }}
+    {{ status }}
 
 
     <button
@@ -15,18 +15,12 @@
 </template>
 
 <script>
+import { mapGetters } from 'vuex';
+
 export default {
   name: 'Header',
   computed: {
-    prevCard() {
-      return this.$store.getters.prevCard;
-    },
-    count() {
-      return this.$store.getters.count;
-    },
-    gameStatus() {
-      return this.$store.getters.status;
-    },
+    ...mapGetters(['prevCard', 'status', 'count']),
   },
   methods: {
     restart() {

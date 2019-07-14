@@ -65,7 +65,7 @@ const store = new Vuex.Store({
     },
     SET_GAME_STATUS(state, status) {
       state.status = status;
-    }
+    },
   },
   actions: {
     flipCard(card) {

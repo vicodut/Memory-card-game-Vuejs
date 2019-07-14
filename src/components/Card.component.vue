@@ -26,6 +26,8 @@
 </template>
 
 <script>
+import { mapGetters } from 'vuex';
+
 export default {
   name: 'Card',
   components: {},
@@ -45,16 +47,11 @@ export default {
     isRotate: false,
   }),
   computed: {
-    score() {
-      return this.$store.getters.count;
-    },
-    gameStatus() {
-      return this.$store.getters.status;
-    },
+    ...mapGetters(['score', 'status']),
   },
   methods: {
     rotate() {
-      if (this.card.flipped && this.gameStatus === 'PLAY') {
+      if (this.card.flipped && this.status === 'PLAY') {
         this.$store.commit('FLIP_CARDS', [this.card]);
         this.$emit('flip', this.card);
         this.$store.commit('increment');

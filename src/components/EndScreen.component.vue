@@ -1,6 +1,6 @@
 <template>
   <div
-    v-if="gameStatus === 'WIN'"
+    v-if="status === 'WIN'"
     class="end-screen"
   >
     <div class="pop-up">
@@ -15,15 +15,12 @@
   </div>
 </template>
 <script>
+import { mapGetters } from 'vuex';
+
 export default {
   name: 'EndScreen',
   computed: {
-    count() {
-      return this.$store.getters.count;
-    },
-    gameStatus() {
-      return this.$store.getters.status;
-    },
+    ...mapGetters(['count', 'status']),
   },
   methods: {
     restart() {
