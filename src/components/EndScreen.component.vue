@@ -15,7 +15,7 @@
   </div>
 </template>
 <script>
-import { mapGetters } from 'vuex';
+import { mapGetters, mapMutations } from 'vuex';
 
 export default {
   name: 'EndScreen',
@@ -23,9 +23,9 @@ export default {
     ...mapGetters(['count', 'status']),
   },
   methods: {
+    ...mapMutations(['START_GAME']),
     restart() {
-      this.$store.commit('START_GAME');
-      this.$store.commit('SET_GAME_STATUS', 'PLAY');
+      this.START_GAME();
     },
   },
 };

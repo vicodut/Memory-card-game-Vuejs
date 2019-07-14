@@ -46,6 +46,7 @@ const store = new Vuex.Store({
 
       state.cards = cardsArray;
       state.count = 0;
+      state.status = 'PLAY';
     },
     SET_PREV_FLIPPED(state, card) {
       state.prevCard = card;
@@ -68,11 +69,9 @@ const store = new Vuex.Store({
     },
   },
   actions: {
-    flipCard(card) {
-      console.log(card);
-    },
-    flipCards(card) {
-      console.log(card);
+    changeStatus({ commit }, {status, delay}) {
+      console.log( status, delay);
+      commit('SET_GAME_STATUS', status);
     },
   },
 });

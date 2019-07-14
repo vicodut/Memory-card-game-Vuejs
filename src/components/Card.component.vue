@@ -26,7 +26,7 @@
 </template>
 
 <script>
-import { mapGetters } from 'vuex';
+import { mapGetters, mapMutations } from 'vuex';
 
 export default {
   name: 'Card',
@@ -50,11 +50,12 @@ export default {
     ...mapGetters(['score', 'status']),
   },
   methods: {
+    ...mapMutations(['FLIP_CARDS', 'increment']),
     rotate() {
       if (this.card.flipped && this.status === 'PLAY') {
-        this.$store.commit('FLIP_CARDS', [this.card]);
+        this.FLIP_CARDS([this.card]);
         this.$emit('flip', this.card);
-        this.$store.commit('increment');
+        this.increment();
       }
     },
   },
