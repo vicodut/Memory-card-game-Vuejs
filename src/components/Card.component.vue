@@ -8,7 +8,15 @@
       :class="{rotate: card.flipped}"
     >
       <div class="card-front">
-        {{ card.type }}
+        <span class="top">
+          {{ card.type }}
+        </span>
+        <span class="back">
+          {{ card.type }}
+        </span>
+        <span class="bottom">
+          {{ card.type }}
+        </span>
       </div>
       <div class="card-back">
         back
@@ -47,7 +55,6 @@ export default {
   methods: {
     rotate() {
       if (this.card.flipped && this.gameStatus === 'PLAY') {
-        // this.isRotate = !this.isRotate;
         this.$store.commit('FLIP_CARDS', [this.card]);
         this.$emit('flip', this.card);
         this.$store.commit('increment');
@@ -86,20 +93,49 @@ export default {
 
     .card-front {
         background-color: #9977aa;
-        box-shadow: 0px 0px 5px #333;
-        border-radius: 8px;
-        font-size: 16em;
+        box-shadow: 0 0 3px #000;
+        border-radius: 4px;
+        transition: 0.5s all ease;
+    }
+
+
+    .top {
+      font-size: 2em;
+      position: absolute;
+      left: 8px;
+      top: 8px;
+      font-weight: bold;
+      color: #fefefe;
+    }
+
+    .bottom {
+      font-size: 2em;
+      position: absolute;
+      right: 8px;
+      bottom: 8px;
+      font-weight: bold;
+      color: #fefefe;
+    }
+
+    .back {
+      font-size: 16em;
+      position: absolute;
+      left: 8px;
+      top: 8px;
     }
 
     .card-back {
         transform: rotateY(180deg);
-        border-radius: 8px;
-        box-shadow: 0px 0px 5px #333;
+        border-radius: 4px;
+        box-shadow: 0 0 3px #000;
         background-color: dodgerblue;
+        transition: 0.5s all ease;
+    }
+    .card-back:hover, .card-front:hover {
+      box-shadow: 0 0 8px #000;
     }
 
     .rotate {
-        transform: rotateY(180deg);
+      transform: rotateY(180deg);
     }
-
 </style>

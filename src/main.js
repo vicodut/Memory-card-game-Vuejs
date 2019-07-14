@@ -11,7 +11,6 @@ const CARD_TYPES = [
   'C',
   'D',
   'E',
-  'F',
 ];
 
 const store = new Vuex.Store({
@@ -46,6 +45,7 @@ const store = new Vuex.Store({
       }
 
       state.cards = cardsArray;
+      state.count = 0;
     },
     SET_PREV_FLIPPED(state, card) {
       state.prevCard = card;
