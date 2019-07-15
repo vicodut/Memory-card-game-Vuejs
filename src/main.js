@@ -38,9 +38,9 @@ const store = new Vuex.Store({
     START_GAME(state) {
       const cardsArray = [...CARD_TYPES, ...CARD_TYPES]
         .map((type, id) => ({ flipped: true, type, id }));
-      const l = cardsArray.length;
+      let l = cardsArray.length;
       while (l) {
-        const i = Math.floor(Math.random() * (l - 1));
+        const i = Math.floor(Math.random() * l--);
         [cardsArray[l], cardsArray[i]] = [cardsArray[i], cardsArray[l]];
       }
 
