@@ -27,12 +27,13 @@ export default {
     ...mapGetters(['score', 'status', 'count', 'prevCard', 'cards']),
   },
   methods: {
-    ...mapActions(['changeStatus']),
-    ...mapMutations(['SET_GAME_STATUS', 'SET_PREV_FLIPPED', 'SET_GAME_STATUS', 'FLIP_CARDS']),
+    ...mapActions(['changeStatus', 'flipWrongCard']),
+    ...mapMutations(['SET_GAME_STATUS', 'SET_PREV_FLIPPED', 'SET_GAME_STATUS']),
     flip(card) {
-      if (this.cards.every(card => !card.flipped)) {
-        setTimeout(() => this.SET_GAME_STATUS('WIN'),
-          500);
+      if (this.cards.every(el => !el.flipped)) {
+        this.changeStatus({
+          status: 'WIN', delay: 500,
+        });
       }
       if (!this.prevCard.type) {
         this.SET_PREV_FLIPPED(card);
@@ -40,11 +41,7 @@ export default {
         this.SET_PREV_FLIPPED({});
       } else {
         this.SET_GAME_STATUS('PAUSE');
-        setTimeout(() => {
-          this.SET_GAME_STATUS('PLAY');
-          this.FLIP_CARDS([this.prevCard, card]);
-          this.SET_PREV_FLIPPED({});
-        }, 1300);
+        this.flipWrongCard(card);
       }
     },
   },

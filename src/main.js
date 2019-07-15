@@ -38,9 +38,9 @@ const store = new Vuex.Store({
     START_GAME(state) {
       const cardsArray = [...CARD_TYPES, ...CARD_TYPES]
         .map((type, id) => ({ flipped: true, type, id }));
-      let l = cardsArray.length;
+      const l = cardsArray.length;
       while (l) {
-        const i = Math.floor(Math.random() * l--);
+        const i = Math.floor(Math.random() * (l - 1));
         [cardsArray[l], cardsArray[i]] = [cardsArray[i], cardsArray[l]];
       }
 
@@ -52,7 +52,7 @@ const store = new Vuex.Store({
       state.prevCard = card;
     },
     FLIP_CARDS(state, flippedCards) {
-      let cards = state.cards;
+      let { cards } = state;
       cards = cards.map((card) => {
         if (flippedCards.find(el => el.id === card.id)) {
           card.flipped = !card.flipped;
@@ -69,9 +69,16 @@ const store = new Vuex.Store({
     },
   },
   actions: {
-    changeStatus({ commit }, {status, delay}) {
-      console.log( status, delay);
-      commit('SET_GAME_STATUS', status);
+    changeStatus({ commit }, { status, delay }) {
+      setTimeout(() => commit('SET_GAME_STATUS', status), delay);
+    },
+    flipWrongCard({ commit, state }, card) {
+      const { prevCard } = state;
+      setTimeout(() => {
+        commit('FLIP_CARDS', [prevCard, card]);
+        commit('SET_GAME_STATUS', 'PLAY');
+        commit('SET_PREV_FLIPPED', {});
+      }, 1300);
     },
   },
 });
